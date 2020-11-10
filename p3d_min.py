@@ -57,7 +57,7 @@ import gltf
 class main(ShowBase):
      def __init__(self):
          # load data for self.render first
-         loadPrcFileData('', 'framebuffer-srgb')
+         loadPrcFileData('', 'framebuffer-srgb #t')
          # loadPrcFileData('', 'fullscreen #t')
          loadPrcFileData('', 'win-size 1200 700')
          
@@ -82,7 +82,7 @@ class main(ShowBase):
 
          p_light = Spotlight('p_light')
          p_light.setColor((1, 1, 1, 1))
-         p_light.setShadowCaster(True, 1028, 1028)
+         p_light.setShadowCaster(True, 1024, 1024)
          lens = PerspectiveLens()
          p_light.setLens(lens)
          p_light_node = self.render.attachNewNode(p_light)
