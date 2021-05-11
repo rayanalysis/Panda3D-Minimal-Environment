@@ -59,7 +59,7 @@ class main(ShowBase):
          # load data for self.render first
          loadPrcFileData('', 'framebuffer-srgb #t')
          # loadPrcFileData('', 'fullscreen #t')
-         loadPrcFileData('', 'win-size 1200 700')
+         loadPrcFileData('', 'win-size 1680 1050')
          
          # new initialization routine for Panda3D
          # use super().__init__() instead of ShowBase
