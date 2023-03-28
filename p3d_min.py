@@ -55,59 +55,56 @@ import simplepbr
 import gltf
 
 class main(ShowBase):
-     def __init__(self):
-         # load data for self.render first
-         loadPrcFileData('', 'framebuffer-srgb #t')
-         # loadPrcFileData('', 'fullscreen #t')
-         loadPrcFileData('', 'win-size 1680 1050')
+    def __init__(self):
+        # load data for self.render first
+        loadPrcFileData('', 'framebuffer-srgb #t')
+        # loadPrcFileData('', 'fullscreen #t')
+        loadPrcFileData('', 'win-size 1680 1050')
          
-         # new initialization routine for Panda3D
-         # use super().__init__() instead of ShowBase
-         # use simplepbr.init() to initialize pbr replacement of setShaderAuto
-         # simplepbr works automatically
-         # use gltf.patch_loader(self.loader) to use gltf exports from Blender
-         super().__init__()
-         simplepbr.init()
-         gltf.patch_loader(self.loader)
+        # new initialization routine for Panda3D
+        # use super().__init__() instead of ShowBase
+        # use simplepbr.init() to initialize pbr replacement of setShaderAuto
+        # simplepbr works automatically
+        # use gltf.patch_loader(self.loader) to use gltf exports from Blender
+        super().__init__()
+        simplepbr.init()
+        gltf.patch_loader(self.loader)
          
-         amb_light = AmbientLight('amblight')
-         amb_light.setColor((0.2, 0.2, 0.2, 1))
-         amb_light_node = self.render.attachNewNode(amb_light)
-         self.render.setLight(amb_light_node)
+        amb_light = AmbientLight('amblight')
+        amb_light.setColor((0.2, 0.2, 0.2, 1))
+        amb_light_node = self.render.attachNewNode(amb_light)
+        self.render.setLight(amb_light_node)
          
-         first_model = self.loader.loadModel('untitled.gltf')
-         first_model.reparentTo(self.render)
-         first_model.setPos(0, 0, 0.5)
-         first_model.setScale(1)
+        first_model = self.loader.loadModel('untitled.gltf')
+        first_model.reparentTo(self.render)
+        first_model.setPos(0, 0, 0.5)
+        first_model.setScale(1)
 
-         p_light = Spotlight('p_light')
-         p_light.setColor((1, 1, 1, 1))
-         p_light.setShadowCaster(True, 1024, 1024)
-         lens = PerspectiveLens()
-         p_light.setLens(lens)
-         p_light_node = self.render.attachNewNode(p_light)
-         p_light_node.setPos(-5, -5, 5)
-         p_light_node.lookAt(first_model)
-         self.render.setLight(p_light_node)
+        p_light = Spotlight('p_light')
+        p_light.setColor((1, 1, 1, 1))
+        p_light.setShadowCaster(True, 1024, 1024)
+        lens = PerspectiveLens()
+        p_light.setLens(lens)
+        p_light_node = self.render.attachNewNode(p_light)
+        p_light_node.setPos(-5, -5, 5)
+        p_light_node.lookAt(first_model)
+        self.render.setLight(p_light_node)
+      
+        nice = LerpPosHprInterval(first_model, 5, (4, 4, 3), (180, 90, 180)).loop()
+        nice_2 = LerpPosInterval(p_light_node, 2, (7, 7, 7)).loop()
          
-         # girls = self.loader.loadTexture('image.png')
-         # first_model.setTexture(girls)
+        self.cam.setPos(10, 10, 5)
+        self.cam.lookAt(first_model)
          
-         nice = LerpPosHprInterval(first_model, 5, (4, 4, 3), (180, 90, 180)).loop()
-         nice_2 = LerpPosInterval(p_light_node, 2, (7, 7, 7)).loop()
+        world = BulletWorld()
+        print(world)
          
-         self.cam.setPos(10, 10, 5)
-         self.cam.lookAt(first_model)
-         
-         world = BulletWorld()
-         print(world)
-         
-         def task_1(Task):
-             p_light_node.lookAt(first_model)
+        def task_1(Task):
+            p_light_node.lookAt(first_model)
              
-             return Task.cont
+            return Task.cont
          
-         self.taskMgr.add(task_1)
+        self.taskMgr.add(task_1)
          
 app = main()
 app.run()
